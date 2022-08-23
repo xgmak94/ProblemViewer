@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import Head from 'next/head';
-import 'bootstrap/dist/css/bootstrap.css';
+import { GlobalContextProvider } from '../components/GlobalStore';
 import Navbar from '../components/header/Navbar';
+import 'bootstrap/dist/css/bootstrap.css';
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -9,7 +10,7 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <>
+    <GlobalContextProvider>
       <Head>
         <meta
           name="viewport"
@@ -18,7 +19,7 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <Navbar />
       <Component {...pageProps} />
-    </>
+    </GlobalContextProvider>
   );
 }
 

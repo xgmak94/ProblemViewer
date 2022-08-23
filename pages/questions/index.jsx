@@ -1,16 +1,10 @@
 import react, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useGlobalContext } from '../../components/GlobalStore';
 import axios from 'axios';
-import styles from '../styles/Home.module.css';
 
-export default function Home() {
-  const [folders, setFolders] = useState([]);
-
-  useEffect(() => {
-    axios.get('http://localhost:3001/questions').then((results) => {
-      setFolders(results.data);
-    });
-  }, []);
+export default function QuestionMain() {
+  const {folders, setFolders} = useGlobalContext();
 
   return (
     <>

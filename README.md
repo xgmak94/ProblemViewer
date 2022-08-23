@@ -1,3 +1,16 @@
+This is a application to view any of my saved leetcode questions.
+
+## File Structure
+```
+-- ProblemViewer
+-- Leetcode
+  -- 1. Two Sum
+  -- 2. Add Two Numbers
+    -- solution.java
+    -- solution.js
+    -- solution.py
+```
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

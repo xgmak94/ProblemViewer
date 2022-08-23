@@ -7,8 +7,10 @@ function Navbar() {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <button className="btn navbar-brand" onClick={router.route !== '/' ? () => router.back() : null}>
-        {router.route === '/' ? 'Leetcode' : 'Back'}
+      <button className="btn navbar-brand">
+        <a className="nav-link" href="/">
+          Home
+        </a>
       </button>
       <button
         className="navbar-toggler"
@@ -26,18 +28,13 @@ function Navbar() {
         id="navbarSupportedContent"
       >
         <ul className="navbar-nav mr-auto">
-          <button className="btn nav-item active">
-            <a className="nav-link" href="/">
-              Home
-            </a>
-          </button>
           <button className="btn nav-item">
-            <a className="nav-link" href="#">
+            <a className="nav-link" href="/questions">
               Questions
             </a>
           </button>
           <button className="btn nav-item">
-            <a className="nav-link" href="#">
+            <a className="nav-link" href="/post">
               Add a question
             </a>
           </button>
