@@ -155,8 +155,12 @@ function readme(questionName) {
 }
 
 function filePath(questionName, ext) {
+  let text = ext;
+  if(text === 'java') {
+    text = ext.slice(0, 1).toUpperCase() + ext.slice(1)
+  }
   let ret = "";
-  ret += `[${ext}](./Leetcode/` + questionName.split(" ").join("%20") + `/Solution.${ext}`;
+  ret += `[${text}](./Leetcode/${questionName.split(" ").join("%20")}/Solution.${ext})`;
 
   return ret;
 }

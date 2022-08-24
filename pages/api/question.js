@@ -45,7 +45,7 @@ async function handlePost(req, res) {
     if(err) {
       await fs.promises.mkdir(dir);
     }
-    let file = path.join(dir, 'solution.' + req.body.extension);
+    let file = path.join(dir, 'Solution.' + req.body.extension);
     await fs.promises.writeFile(file, req.body.solution);
   });
 
