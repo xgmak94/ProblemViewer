@@ -17,7 +17,7 @@ export default function Home() {
     if (search.length >= 1) {
       setFiltered(
         folders.filter((name) => {
-          return name.toLowerCase().includes(search);
+          return name.toLowerCase().includes(search.toLowerCase());
         })
       );
     } else {
