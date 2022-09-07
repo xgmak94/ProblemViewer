@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import alertify from 'alertifyjs';
+import Search from '../../components/Search';
+import Readme from '../../components/Readme';
 
 const fileTypes = ['java', 'js', 'py'];
 
 export default function QuestionPage() {
   const router = useRouter();
   const { questionName } =
-    router.query ||
-    window.location.href.split('/')[4].replaceAll('%20', ' ');
+    router.query || window.location.href.split('/')[4].replaceAll('%20', ' ');
   const [solutions, setSolutions] = useState({});
   const [display, setDisplay] = useState('');
   const [selected, setSelected] = useState('');
@@ -53,33 +55,38 @@ export default function QuestionPage() {
       extension: selected,
       solution: display,
     };
-    await axios.post('/api/question', info);
+    axios
+      .post('/api/question', info)
+      .then((results) => {
+        alertify.success('Posted');
+      })
+      .catch((err) => {
+        alertify.error('Error');
+      });
   }
 
   function handleReset(e) {
-    setDisplay(solutions[selected]);
+    setDisplay(solutions[selected]).then((results) => {
+      alertify.success('Reset');
+    });
   }
 
   return (
     <>
+      <Search />
       <div>{questionName}</div>
       <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-        }}
+        className="m-3"
       >
         <div
+          className="m-3 d-flex justify-content-around"
           id="extension-container"
-          style={{ display: 'flex', justifyContent: 'space-around' }}
         >
           {fileTypes.map((fileType) => {
             return (
               <button
                 className={
-                  fileType === selected
-                    ? 'btn btn-primary btn-lg'
-                    : 'btn btn-secondary btn-lg'
+                  fileType === selected ? 'btn btn-primary btn-lg' : 'btn btn-secondary btn-lg'
                 }
                 key={fileType}
                 onClick={(e) => changeText(e, fileType)}
@@ -89,14 +96,7 @@ export default function QuestionPage() {
             );
           })}
         </div>
-        {/* <div className="form-group" id="description-container">
-          <textarea
-            className="form-control form-control-lg"
-            rows="10"
-            value={description}
-          />
-        </div> */}
-        <div className="form-group">
+        <div className="form-group m-3">
           <textarea
             className="form-control form-control-lg"
             rows="15"
@@ -105,62 +105,16 @@ export default function QuestionPage() {
             onChange={(e) => editText(e)}
           />
         </div>
-        <div
-          style={{ display: 'flex', justifyContent: 'space-around' }}
-        >
-          <button
-            className="btn btn-secondary"
-            type="submit"
-            onClick={(e) => handleSubmit(e)}
-          >
+        <div className="mb-3 d-flex justify-content-around">
+          <button className="btn btn-secondary" type="submit" onClick={(e) => handleSubmit(e)}>
             Save
           </button>
-          <button
-            className="btn btn-secondary"
-            type="submit"
-            onClick={(e) => handleReset(e)}
-          >
+          <button className="btn btn-secondary" type="submit" onClick={(e) => handleReset(e)}>
             Reset
           </button>
         </div>
-        <input
-          type="email"
-          className="form-control form-control-lg"
-          value={readme(questionName)
-            }
-          style={{ textAlign: 'center' }}
-        />
-          <input
-          type="email"
-          className="form-control form-control-lg"
-          value={filePath(questionName, selected)}
-          style={{ textAlign: 'center' }}
-        />
+        <Readme questionName={questionName} selected={selected} />
       </div>
     </>
   );
-}
-
-function readme(questionName) {
-  let ret = "";
-  let num = questionName.split(" ")[0].slice(0, -1);
-  ret += num + " | " + `[${questionName.split(".")[1].slice(1)}]`;
-
-  let arr = questionName.toLowerCase().split(" ");
-  arr = arr.slice(1);
-
-  ret += "(http://leetcode.com/problems/" + arr.join("-") + ") |";
-
-  return ret;
-}
-
-function filePath(questionName, ext) {
-  let text = ext;
-  if(text === 'java') {
-    text = ext.slice(0, 1).toUpperCase() + ext.slice(1)
-  }
-  let ret = "";
-  ret += `[${text}](./Leetcode/${questionName.split(" ").join("%20")}/Solution.${ext})`;
-
-  return ret;
 }

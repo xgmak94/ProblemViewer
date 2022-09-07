@@ -33,7 +33,6 @@ async function handleGet(req, res) {
 }
 
 async function handlePost(req, res) {
-  console.log(req.body);
   let dir = path.join(
     process.cwd(),
     '..',
