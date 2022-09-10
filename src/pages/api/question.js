@@ -29,7 +29,7 @@ async function handleGet(req, res) {
     let ext = files[i].split('.')[1];
     ret[ext] = Buffer.from(file).toString();
   }
-  res.send(ret);
+  return res.send(ret);
 }
 
 async function handlePost(req, res) {
@@ -48,5 +48,5 @@ async function handlePost(req, res) {
     await fs.promises.writeFile(file, req.body.solution);
   });
 
-  res.status(201).send();
+  return res.status(201).send();
 }

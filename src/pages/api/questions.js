@@ -17,8 +17,8 @@ export default async function handler(req, res) {
     arr.forEach((elem, idx) => {
       arr[idx] = elem.join('.');
     });
-    res.send(JSON.stringify(arr));
+    return res.send(JSON.stringify(arr));
   } else if (req.method === 'POST') {
-    res.send('post');
+    return res.send('post');
   }
 }

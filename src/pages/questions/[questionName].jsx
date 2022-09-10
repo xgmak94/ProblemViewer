@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import alertify from 'alertifyjs';
 import Search from '../../components/Search';
 import Readme from '../../components/Readme';
 
@@ -15,34 +14,37 @@ export default function QuestionPage() {
   const [display, setDisplay] = useState('');
   const [selected, setSelected] = useState('');
   const [description, setDescription] = useState('');
+  const [fileType, setFileType] = useState('java');
 
   useEffect(() => {
-    axios
-      .get('/api/question', {
+    const getQuestionData = async () => {
+      let results = await axios.get('/api/question', {
         params: { question: questionName },
-      })
-      .then((results) => {
-        setSolutions(results.data);
-      })
-      .catch((err) => {
-        console.log(err);
       });
-  }, []);
+      setSolutions(results.data);
+      setDisplay(results.data[fileType]);
+    };
 
-  // useEffect(() => {
+    getQuestionData();
+  }, [questionName]);
+
   //   if(solutions && solutions.java) {
   //     let ret = solutions?.java?.split("/")[0];
   //     setDescription(ret);
   //   }
   // }, [solutions]);
 
-  function changeText(e, fileType) {
-    setSelected(fileType);
+  useEffect(() => {
     if (!solutions[fileType]) {
       setDisplay('');
-    } else {
-      setDisplay(solutions[fileType]);
+      return;
     }
+    setDisplay(solutions[fileType]);
+  }, [fileType]);
+
+  function changeText(e, type) {
+    setSelected(fileType);
+    setFileType(type);
   }
 
   function editText(e) {
@@ -58,10 +60,10 @@ export default function QuestionPage() {
     axios
       .post('/api/question', info)
       .then((results) => {
-        alertify.success('Posted');
+        alert('Posted');
       })
       .catch((err) => {
-        alertify.error('Error');
+        alert('Error');
       });
   }
 
@@ -75,13 +77,8 @@ export default function QuestionPage() {
     <>
       <Search />
       <div>{questionName}</div>
-      <div
-        className="m-3"
-      >
-        <div
-          className="m-3 d-flex justify-content-around"
-          id="extension-container"
-        >
+      <div className="m-3">
+        <div className="m-3 d-flex justify-content-around" id="extension-container">
           {fileTypes.map((fileType) => {
             return (
               <button

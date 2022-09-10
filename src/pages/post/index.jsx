@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Readme from '../../components/Readme';
+import Search from '../../components/Search';
 
 let original = {
   questionName: '',
@@ -44,11 +45,7 @@ function PostPage() {
 
   return (
     <>
-      {submitted && (
-        <div class="alert alert-primary" role="alert">
-          Successful post!
-        </div>
-      )}
+      <Search />
       <form>
         <div className="form-group m-3">
           <label htmlFor="questionName">Question Name</label>
@@ -93,6 +90,11 @@ function PostPage() {
           </button>
         </div>
       </form>
+      {submitted && (
+        <div class="alert alert-primary" role="alert">
+          Successful post!
+        </div>
+      )}
       <Readme questionName={info.questionName} selected={info.extension} />
     </>
   );

@@ -17,8 +17,7 @@ function MyApp({ Component, pageProps }) {
           name="viewport"
           content="width=device-width, initial-scale=1"
         />
-        <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+        <Script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js" />
       </Head>
 
       <Navbar />
